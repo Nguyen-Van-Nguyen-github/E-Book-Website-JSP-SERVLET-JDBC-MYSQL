@@ -12,3 +12,5 @@ This is a website project written in Java using JSP, Servlet, JDBC, and MySQL, w
   + Bootstrap4
   + MySQL: MySQL Server 9.0.
     
+# Important
+ + View the dependencies in the pom.xml file.
