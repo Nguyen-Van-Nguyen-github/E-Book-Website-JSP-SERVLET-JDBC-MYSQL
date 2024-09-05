@@ -1,265 +1,193 @@
-<%@include file="all_component/allCss.jsp" %>
+<%@page import="com.entity.User"%>
+<%@page import="com.entity.BookDtls"%>
+<%@page import="com.DB.DBConnect"%>
+<%@page import="com.DAO.BookDAOImpl"%>
+<%@include file="all_component/allCss.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+
+
+<%@ page import="com.DAO.BookDAOImpl"%>
+<%@ page import="com.DB.DBConnect"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.entity.BookDtls"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Ebbok App: Home</title>
 <style type="text/css">
-.back-img{
+.back-img {
 	background: url("img/book_main.png");
 	height: 50vh;
 	width: 100%;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-.crd-ho:hover{
+
+.crd-ho:hover {
 	background-color: #fcf7f7;
 }
 </style>
 </head>
 
 <body style="background-color: #f7f7f7;">
-	<%@include file="all_component/navbar.jsp" %>
-	
+
+	<%
+		User u = (User)session.getAttribute("userobj");
+	%>
+
+
+	<%@include file="all_component/navbar.jsp"%>
+
 	<div class="container-fluid back-img">
 		<h2 class="text-center text-danger">EBook Management System</h2>
 	</div>
-	
-	
-<!-- Sart Recent Book -->
-	<div class="container" >
+
+
+	<!-- Start Recent Book -->
+	<div class="container">
 		<h3 class="text-center">Recent Book</h3>
 		<div class="row">
-		
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
+			<%
+			BookDAOImpl dao2 = new BookDAOImpl(DBConnect.getConn());
+			List<BookDtls> list2 = dao2.getRecentBooks();
+			for(BookDtls b: list2){
+			%>
+				<div class="col-md-3">
+					<div class="card crd-ho">
+						<div class="card-body text-center">
+							<img alt="" src="book/<%= b.getPhotoName() %>"
+								style="width: 150px; height: 200px" class="img-thumblin">
+							<p><%= b.getBookName() %></p>
+							<p><%= b.getAuthor() %></p>
+							<p>
+								<%
+								if(b.getBookCategory().equals("Old")){
+								%>
+								Categories: <%= b.getBookCategory() %></p>
+								<div class="row">
+									<a href="view_books.jsp?bid=<%= b.getBookId() %>" class="btn btn-success btn-sm ml-5">View Details</a> 
+									<a href="" class="btn btn-danger btn-sm ml-1"><%= b.getPrice() %> <i class="fas fa-dollar-sign"></i></a>
+								</div>
+								<%}else{%>
+									Categories: <%= b.getBookCategory() %></p>
+								<div class="row">
+									
+									<%
+										if(u == null){%>
+											<a href="login.jsp" class="btn btn-danger btn-sm ml-2"> <i class="fas fa-cart-plus"></i>Add Cart</a> 
+										<%}else{%>
+											<a href="cart?bid=<%=b.getBookId()%> &&uid=<%=u.getId()%>" class="btn btn-danger btn-sm ml-2"> <i class="fas fa-cart-plus"></i>Add Cart</a> 
+										<%}
+									%>
+									
+									<a href="view_books.jsp?bid=<%= b.getBookId() %>" class="btn btn-success btn-sm ml-1">View Details</a> 
+									<a href="" class="btn btn-danger btn-sm ml-1"><%= b.getPrice() %> <i class="fas fa-dollar-sign"></i></a>
+								</div>
+								<%}
+								%>
+							
+							
+								
 						</div>
 					</div>
 				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
+			<%
+			}
+			%>
 		</div>
-		
 		<div class="text-center mt-1">
-			<a href="" class="btn btn-danger btn-sm text-white">View All</a>
+			<a href="all_recent_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
 		</div>
 	</div>
-<!-- End Recent Book -->
+	<!-- End Recent Book -->
 
+<!-- --------------------------------------------------------------------------------------------------------------- -->
 	<br>
 
-<!-- Sart New Book -->
-	<div class="container" >
+	<!-- Sart New Book -->
+	<div class="container">
 		<h3 class="text-center">New Book</h3>
 		<div class="row">
-		
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
+			
+				<%
+				BookDAOImpl dao = new BookDAOImpl(DBConnect.getConn());
+				List<BookDtls> list = dao.getNewBook();
+				for (BookDtls b : list) {
+				%>
+				<div class="col-md-3">
+					<div class="card crd-ho">
+						<div class="card-body text-center">
+							<img alt="" src="book/<%= b.getPhotoName() %>" style="width: 150px; height: 200px" class="img-thumblin">
+							<p><%= b.getBookName() %></p>
+							<p><%= b.getAuthor() %></p>
+							<p>Categories: <%= b.getBookCategory() %></p>
+							<div class="row">
+								<%
+								if(u == null){%>
+									<a href="login.jsp" class="btn btn-danger btn-sm ml-2"> <i class="fas fa-cart-plus"></i>Add Cart</a> 
+								<%}else{%>
+									<a href="cart?bid=<%=b.getBookId()%> &&uid=<%=u.getId()%>" class="btn btn-danger btn-sm ml-2"> <i class="fas fa-cart-plus"></i>Add Cart</a> 
+								<%}
+								%>
+								
+								<a href="view_books.jsp?bid=<%= b.getBookId() %>" class="btn btn-success btn-sm ml-1">View Details</a> 
+								<a href="" class="btn btn-danger btn-sm ml-1"><%= b.getPrice() %> <i class="fas fa-dollar-sign"></i></a>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-danger btn-sm ml-2"><i class="fas fa-cart-plus"></i>Add Cart</a>
-							<a href="" class="btn btn-success btn-sm ml-1">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
+			<%
+			}
+			%>
+
 		</div>
-		
-		<div class="text-center mt-1">
-			<a href="" class="btn btn-danger btn-sm text-white">View All</a>
-		</div>
+			<div class="text-center mt-1">
+				<a href="all_new_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
+			</div>
 	</div>
-<!-- End New Book -->
+	<!-- End New Book -->
+<!-- --------------------------------------------------------------------------------------------------------------- -->
+		<br>
 
-	<br>
+		<!-- Sart Old Book -->
+		<div class="container">
+			<h3 class="text-center">Old Book</h3>
+			<div class="row">
 
-<!-- Sart Old Book -->
-	<div class="container" >
-		<h3 class="text-center">Old Book</h3>
-		<div class="row">
-		
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-success btn-sm ml-5">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
+				<%
+					BookDAOImpl dao3 = new BookDAOImpl(DBConnect.getConn());
+					List<BookDtls> list3 = dao3.getOldBooks();
+					for(BookDtls b: list3){
+					%>
+						<div class="col-md-3">
+							<div class="card crd-ho">
+								<div class="card-body text-center">
+									<img alt="" src="book/<%= b.getPhotoName() %>"
+										style="width: 150px; height: 200px" class="img-thumblin">
+									<p><%= b.getBookName() %></p>
+									<p><%= b.getAuthor() %></p>
+									<p>Categories: <%= b.getBookCategory() %></p>
+									<div class="row">
+										<a href="view_books.jsp?bid=<%= b.getBookId() %>" class="btn btn-success btn-sm ml-5">View Details</a> 
+										<a href="" class="btn btn-danger btn-sm ml-1"><%= b.getPrice() %> <i class="fas fa-dollar-sign"></i></a>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
+					<%
+					}
+				%>
 			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-success btn-sm ml-5">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
+			<div class="text-center mt-1">
+				<a href="all_old_book.jsp" class="btn btn-danger btn-sm text-white">View All</a>
 			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-success btn-sm ml-5">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-3">
-				<div class="card crd-ho">
-					<div class="card-body text-center">
-						<img alt="" src="book/languageJava.png" style="width: 150px; height: 200px" class="img-thumblin">
-						<p> Java Programming</p>
-						<p>Baalguruswam</p>
-						<p>Categories: New</p>
-						<div class="row">
-							<a href="" class="btn btn-success btn-sm ml-5">View Details</a>
-							<a href="" class="btn btn-danger btn-sm ml-1">299</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			
 		</div>
-		
-		<div class="text-center mt-1">
-			<a href="" class="btn btn-danger btn-sm text-white">View All</a>
-		</div>
-	</div>
-<!-- End Old Book -->
+		<!-- End Old Book -->
 
-<%@include file="all_component/footer.jsp" %>
-
+		<%@include file="all_component/footer.jsp"%>
 </body>
 </html>
