@@ -14,3 +14,4 @@ This is a website project written in Java using JSP, Servlet, JDBC, and MySQL, w
     
 # Important
  + View the dependencies in the pom.xml file.
+ + View file EBook-App/src/main/java/com/DB/DBConnect.java -> use username and password your.
