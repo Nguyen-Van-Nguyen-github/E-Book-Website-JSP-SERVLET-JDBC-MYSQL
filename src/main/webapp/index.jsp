@@ -43,7 +43,7 @@
 	<%@include file="all_component/navbar.jsp"%>
 
 	<div class="container-fluid back-img">
-		<h2 class="text-center text-danger">EBook Management System</h2>
+		<h2 class="text-center text-danger">EBook Management System For Student Development</h2>
 	</div>
 
 
