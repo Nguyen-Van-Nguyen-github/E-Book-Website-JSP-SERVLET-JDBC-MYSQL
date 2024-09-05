@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.DAO.UserDAOImpl;
 import com.DB.DBConnect;
@@ -25,7 +26,7 @@ public class RegisterServlet extends HttpServlet{
 			String password=req.getParameter("password");
 			String check=req.getParameter("check");
 			
-			System.out.println(name+" " + email+ " " + phno + " " + password+ " " + check);
+			//System.out.println(name+" " + email+ " " + phno + " " + password+ " " + check);
 			
 			User us=new User();
 			us.setName(name);
@@ -33,13 +34,35 @@ public class RegisterServlet extends HttpServlet{
 			us.setPhno(phno);
 			us.setPassword(password);
 			
-			UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
-			boolean f = dao.userRegister(us);
-			if(f) {
-				System.out.print("User Register Success..");
+			HttpSession session = req.getSession();
+			
+			if(check != null) {
+				UserDAOImpl dao = new UserDAOImpl(DBConnect.getConn());
+				
+				boolean f2 = dao.checkUser(email);
+				if(f2) {
+					boolean f = dao.userRegister(us);
+					if(f) {
+						//System.out.println("User Register Success..");
+						session.setAttribute("succMsg", "Registration Successfully.");
+						resp.sendRedirect("register.jsp");
+					}else {
+						//System.out.println("Something wrong on server");
+						session.setAttribute("faileMsg", "Something wrong on server");
+						resp.sendRedirect("register.jsp");
+					}
+				}else {
+					session.setAttribute("faileMsg", "User Already Exist Try Another Email.");
+					resp.sendRedirect("register.jsp");
+				}
+				
 			}else {
-				System.out.print("Something wrong on server");
+				//System.out.print("Please check Agree & Terms Condition");
+				session.setAttribute("faileMsg", "Please check Agree & Terms Condition");
+				resp.sendRedirect("register.jsp");
 			}
+			
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
